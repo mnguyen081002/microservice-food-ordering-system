@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restaurant-deployment
+  namespace: default
+  labels:
+    app: restaurant-deployment
+spec:
+  selector:
+    matchLabels:
+      app: restaurant-deployment
+  template:
+    metadata:
+      labels:
+        app: restaurant-deployment
+    spec:
+      containers:
+        - name: restaurant-service
+          image: fos/restaurant-service:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: 'jdbc:postgresql://postgres-service:5432/postgres?currentSchema=restaurant&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified'
+            - name: KAFKA-CONFIG_BOOTSTRAP-SERVERS
+              value: 'local-confluent-kafka-cp-kafka-headless:9092'
+            - name: KAFKA-CONFIG_SCHEMA-REGISTRY-URL
+              value: 'http://local-confluent-kafka-cp-schema-registry:8081'
+          resources:
+            limits:
+              cpu: '500m'
+              memory: '1024Mi'
+            requests:
+              cpu: '200m'
+              memory: '256Mi'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: restaurant-service
+  namespace: default
+  labels:
+    app: restaurant-service
+spec:
+  selector:
+    app: restaurant-deployment
+  ports:
+    - name: restaurant-service-port
+      protocol: TCP
+      port: 8183
+  type: LoadBalancer
+  loadBalancerIP: ''
