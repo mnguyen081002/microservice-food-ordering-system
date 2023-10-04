@@ -18,20 +18,18 @@ spec:
         - name: order-service
           image: fos/order-service:latest
           imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8181
           env:
             - name: SPRING_DATASOURCE_URL
               value: 'jdbc:postgresql://postgres-service:5432/postgres?currentSchema=order&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified'
             - name: KAFKA-CONFIG_BOOTSTRAP-SERVERS
-              value: 'local-confluent-kafka-cp-kafka-headless:9092'
+              value: 'kafka-svc:9092'
             - name: KAFKA-CONFIG_SCHEMA-REGISTRY-URL
-              value: 'http://local-confluent-kafka-cp-schema-registry:8081'
+              value: 'http://schema-registry-service:8081'
           resources:
             limits:
-              cpu: '500m'
               memory: '1024Mi'
-            requests:
-              cpu: '200m'
-              memory: '256Mi'
 ---
 apiVersion: v1
 kind: Service
@@ -47,5 +45,6 @@ spec:
     - name: order-service-port
       protocol: TCP
       port: 8181
+      targetPort: 8181
   type: LoadBalancer
   loadBalancerIP: ''

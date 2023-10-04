@@ -16,21 +16,19 @@ spec:
       containers:
         - name: customer-service
           image: fos/customer-service:latest
+          ports:
+            - containerPort: 8184
           imagePullPolicy: IfNotPresent
           env:
             - name: SPRING_DATASOURCE_URL
               value: 'jdbc:postgresql://postgres-service:5432/postgres?currentSchema=customer&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified'
             - name: KAFKA-CONFIG_BOOTSTRAP-SERVERS
-              value: 'local-confluent-kafka-cp-kafka-headless:9092'
+              value: 'kafka-svc:9092'
             - name: KAFKA-CONFIG_SCHEMA-REGISTRY-URL
-              value: 'http://local-confluent-kafka-cp-schema-registry:8081'
+              value: 'http://schema-registry-service:8081'
           resources:
             limits:
-              cpu: '500m'
               memory: '1024Mi'
-            requests:
-              cpu: '200m'
-              memory: '256Mi'
 ---
 apiVersion: v1
 kind: Service
@@ -46,5 +44,6 @@ spec:
     - name: customer-service-port
       protocol: TCP
       port: 8184
+      targetPort: 8184
   type: LoadBalancer
   loadBalancerIP: ''

@@ -57,7 +57,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <image>
-                        <name>pos/order-service:latest</name>
+                        <name>fos/order-service:latest</name>
                     </image>
                 </configuration>
                 <executions>

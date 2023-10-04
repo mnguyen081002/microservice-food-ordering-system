@@ -39,6 +39,8 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 19092
+            - containerPort: 9092
+            - containerPort: 9093
           env:
             - name: HOSTNAME
               valueFrom:

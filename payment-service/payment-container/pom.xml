@@ -41,7 +41,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <image>
-                        <name>pos/payment-service:latest</name>
+                        <name>fos/payment-service:latest</name>
                     </image>
                 </configuration>
                 <executions>

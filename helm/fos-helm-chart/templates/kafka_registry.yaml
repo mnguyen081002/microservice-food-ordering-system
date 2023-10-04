@@ -26,9 +26,9 @@ spec:
             - name: SCHEMA_REGISTRY_HOST_NAME
               value: schema-registry
             - name: SCHEMA_REGISTRY_LISTENERS
-              value: http://:8081
+              value: http://0.0.0.0:8081
             - name: SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS
-              value: 'PLAINTEXT://kafka-0.kafka-svc.default.svc.cluster.local:9092,PLAINTEXT://localhost:19092'
+              value: 'PLAINTEXT://kafka-svc:9092'
             - name: SCHEMA_REGISTRY_DEBUG
               value: 'true'
           resources:
@@ -38,8 +38,7 @@ spec:
             requests:
               cpu: '200m'
               memory: '256Mi'
-
----schema-registry
+---
 apiVersion: v1
 kind: Service
 metadata:

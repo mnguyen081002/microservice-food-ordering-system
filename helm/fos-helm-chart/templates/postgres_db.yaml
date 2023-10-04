@@ -19,16 +19,14 @@ spec:
         - name: postgres
           image: postgres:latest
           imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
           env:
             - name: POSTGRES_PASSWORD
               value: 'admin'
           resources:
             limits:
-              cpu: '500m'
               memory: '1024Mi'
-            requests:
-              cpu: '200m'
-              memory: '256Mi'
 ---
 apiVersion: v1
 kind: Service
@@ -44,5 +42,6 @@ spec:
     - name: postgres-service-port
       protocol: TCP
       port: 5432
+      targetPort: 5432
   type: LoadBalancer
   loadBalancerIP: ''

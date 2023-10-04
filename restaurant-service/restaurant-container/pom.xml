@@ -41,7 +41,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <image>
-                        <name>pos/restaurant-service:latest</name>
+                        <name>fos/restaurant-service:latest</name>
                     </image>
                 </configuration>
                 <executions>

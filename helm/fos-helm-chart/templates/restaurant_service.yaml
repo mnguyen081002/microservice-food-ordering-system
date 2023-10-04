@@ -22,16 +22,12 @@ spec:
             - name: SPRING_DATASOURCE_URL
               value: 'jdbc:postgresql://postgres-service:5432/postgres?currentSchema=restaurant&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified'
             - name: KAFKA-CONFIG_BOOTSTRAP-SERVERS
-              value: 'local-confluent-kafka-cp-kafka-headless:9092'
+              value: 'kafka-svc:9092'
             - name: KAFKA-CONFIG_SCHEMA-REGISTRY-URL
-              value: 'http://local-confluent-kafka-cp-schema-registry:8081'
+              value: 'http://schema-registry-service:8081'
           resources:
             limits:
-              cpu: '500m'
               memory: '1024Mi'
-            requests:
-              cpu: '200m'
-              memory: '256Mi'
 ---
 apiVersion: v1
 kind: Service
@@ -47,5 +43,6 @@ spec:
     - name: restaurant-service-port
       protocol: TCP
       port: 8183
+      targetPort: 8183
   type: LoadBalancer
   loadBalancerIP: ''

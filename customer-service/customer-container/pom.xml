@@ -45,7 +45,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <image>
-                        <name>pos/customer-service:latest</name>
+                        <name>fos/customer-service:latest</name>
                     </image>
                 </configuration>
                 <executions>
