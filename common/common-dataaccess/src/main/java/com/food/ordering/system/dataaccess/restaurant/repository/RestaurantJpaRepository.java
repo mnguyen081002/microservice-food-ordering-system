@@ -1,4 +1,4 @@
-package com.food.ordering.system.dataaccess.restaurant.repository;
+package com.food.ordering.system.restaurant.service.dataaccess.restaurant.repository;
 
 import com.food.ordering.system.dataaccess.restaurant.entity.RestaurantEntity;
 import com.food.ordering.system.dataaccess.restaurant.entity.RestaurantEntityId;

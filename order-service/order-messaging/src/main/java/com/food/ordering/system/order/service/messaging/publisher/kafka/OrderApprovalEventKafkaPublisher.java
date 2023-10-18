@@ -70,7 +70,5 @@ public class OrderApprovalEventKafkaPublisher implements RestaurantApprovalReque
             log.error("Error while sending OrderApprovalEventPayload to kafka for order id: {} and saga id: {}," +
                     " error: {}", orderApprovalEventPayload.getOrderId(), sagaId, e.getMessage());
         }
-
-
     }
 }

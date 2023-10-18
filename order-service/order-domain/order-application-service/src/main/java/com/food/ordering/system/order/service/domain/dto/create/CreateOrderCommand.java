@@ -13,8 +13,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 public class CreateOrderCommand {
-    @NotNull
-    private final UUID customerId;
+    private UUID customerId;
     @NotNull
     private final UUID restaurantId;
     @NotNull
@@ -23,4 +22,8 @@ public class CreateOrderCommand {
     private final List<OrderItem> items;
     @NotNull
     private final OrderAddress address;
+
+    public void setCustomerId(UUID userId) {
+        this.customerId = userId;
+    }
 }

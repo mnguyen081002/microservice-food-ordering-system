@@ -73,6 +73,5 @@ public class PaymentRequestKafkaListener implements KafkaConsumer<PaymentRequest
                 log.error("No payment found for order id: {}", paymentRequestAvroModel.getOrderId());
             }
         });
-
     }
 }
