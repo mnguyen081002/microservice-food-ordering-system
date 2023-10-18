@@ -1,9 +1,12 @@
 package com.food.ordering.system.order.service.domain.mapper;
 
 import com.food.ordering.system.domain.valueobject.*;
+import com.food.ordering.system.order.service.domain.dto.GetRestaurantResponse;
 import com.food.ordering.system.order.service.domain.dto.create.CreateOrderCommand;
 import com.food.ordering.system.order.service.domain.dto.create.CreateOrderResponse;
 import com.food.ordering.system.order.service.domain.dto.create.OrderAddress;
+import com.food.ordering.system.order.service.domain.dto.list.OrderItemResponse;
+import com.food.ordering.system.order.service.domain.dto.list.OrderResponse;
 import com.food.ordering.system.order.service.domain.dto.message.CustomerModel;
 import com.food.ordering.system.order.service.domain.dto.track.TrackOrderResponse;
 import com.food.ordering.system.order.service.domain.entity.*;
@@ -16,7 +19,9 @@ import com.food.ordering.system.order.service.domain.outbox.model.payment.OrderP
 import com.food.ordering.system.order.service.domain.valueobject.StreetAddress;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -27,11 +32,11 @@ public class OrderDataMapper {
         return Restaurant.builder()
                 .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
                 .products(createOrderCommand.getItems().stream().map(orderItem ->
-                        new Product(new ProductId(orderItem.getProductId())))
+                                new Product(new ProductId(orderItem.getProductId())))
                         .collect(Collectors.toList()))
                 .build();
     }
-    
+
     public Order createOrderCommandToOrder(CreateOrderCommand createOrderCommand) {
         return Order.builder()
                 .customerId(new CustomerId(createOrderCommand.getCustomerId()))
@@ -99,6 +104,39 @@ public class OrderDataMapper {
                 customerModel.getUsername(),
                 customerModel.getFirstName(),
                 customerModel.getLastName());
+    }
+
+    public Restaurant getRestaurantResponseToRestaurant(GetRestaurantResponse getRestaurantResponse) {
+        return Restaurant.builder().restaurantId(new RestaurantId(getRestaurantResponse.getRestaurantId()))
+                .active(getRestaurantResponse.isActive())
+                .products(getRestaurantResponse.getProducts().stream().map(product ->
+                        new Product(new ProductId(product.getId()), product.getName(), new Money(product.getPrice()))).collect(Collectors.toList()))
+                .build();
+    }
+
+    public List<OrderResponse> ordersToListOrderResponse(Optional<List<Order>> orders) {
+        return orders.map(orderList -> orderList.stream().map(order -> OrderResponse
+                        .builder()
+                        .orderTrackingId(order.getTrackingId().getValue().toString())
+                        .orderStatus(order.getOrderStatus())
+                        .orderId(order.getId().getValue())
+                        .price(order.getPrice().getAmount())
+                        .customerId(order.getCustomerId().getValue())
+                        .restaurantId(order.getRestaurantId().getValue())
+                        .failureMessage(order.getFailureMessages())
+                        .streetAddress(order.getDeliveryAddress())
+                        .orderItems(order.getItems().stream().map(orderItem -> OrderItemResponse
+                                        .builder()
+                                        .productName(orderItem.getProduct().getName())
+                                        .productId(orderItem.getProduct().getId().getValue())
+                                        .productQuantity(orderItem.getQuantity())
+                                        .productPrice(orderItem.getPrice().getAmount())
+                                        .build()
+                                ).toList()
+                        )
+                        .build()
+                )
+                .toList()).orElseGet(ArrayList::new);
     }
 
     private List<OrderItem> orderItemsToOrderItemEntities(

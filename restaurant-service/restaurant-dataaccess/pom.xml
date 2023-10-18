@@ -18,10 +18,6 @@
         </dependency>
         <dependency>
             <groupId>com.food.ordering.system</groupId>
-            <artifactId>restaurant-application-service</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.food.ordering.system</groupId>
             <artifactId>common-dataaccess</artifactId>
         </dependency>
         <dependency>
@@ -31,6 +27,18 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.food.ordering.system</groupId>
+            <artifactId>common-domain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.food.ordering.system</groupId>
+            <artifactId>restaurant-domain-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.food.ordering.system</groupId>
+            <artifactId>restaurant-application-service</artifactId>
         </dependency>
     </dependencies>
 

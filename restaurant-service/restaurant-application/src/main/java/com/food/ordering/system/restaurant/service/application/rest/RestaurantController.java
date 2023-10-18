@@ -1,4 +1,4 @@
-package rest;
+package com.food.ordering.system.restaurant.service.application.rest;
 
 import com.food.ordering.system.restaurant.service.domain.dto.get.GetRestaurantQuery;
 import com.food.ordering.system.restaurant.service.domain.dto.get.GetRestaurantResponse;
@@ -24,7 +24,7 @@ public class RestaurantController {
 
     // Get Restaurant Information
     @GetMapping("/{restaurantId}")
-    public ResponseEntity<GetRestaurantResponse> getRestaurant(@PathVariable UUID restaurantId) {
+    public ResponseEntity<GetRestaurantResponse> getRestaurantProducts(@PathVariable UUID restaurantId) {
         log.info("Get restaurant information for restaurantId: {}", restaurantId);
         GetRestaurantResponse response = restaurantApplicationService.findRestaurantInformation(GetRestaurantQuery.builder().restaurantId(restaurantId).build());
         return ResponseEntity.ok(response);

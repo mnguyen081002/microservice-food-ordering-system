@@ -32,4 +32,11 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
                         restaurantProducts);
         return restaurantEntities.map(restaurantDataAccessMapper::restaurantEntityToRestaurant);
     }
+
+    @Override
+    public Optional<Restaurant> findRestaurantInformationById(UUID restaurantId) {
+        Optional<List<RestaurantEntity>> restaurantEntities = restaurantJpaRepository
+                .findByRestaurantId(restaurantId);
+        return restaurantEntities.map(restaurantDataAccessMapper::restaurantEntityToRestaurant);
+    }
 }

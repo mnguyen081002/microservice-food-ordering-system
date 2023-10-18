@@ -39,7 +39,7 @@ public class OrderCreateCommandHandler {
                 "Order created successfully");
 
         paymentOutboxHelper.savePaymentOutboxMessage(orderDataMapper
-                .orderCreatedEventToOrderPaymentEventPayload(orderCreatedEvent),
+                        .orderCreatedEventToOrderPaymentEventPayload(orderCreatedEvent),
                 orderCreatedEvent.getOrder().getOrderStatus(),
                 orderSagaHelper.orderStatusToSagaStatus(orderCreatedEvent.getOrder().getOrderStatus()),
                 OutboxStatus.STARTED,

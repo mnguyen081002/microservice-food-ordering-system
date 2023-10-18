@@ -8,7 +8,6 @@
         <module>order-service</module>
         <module>common</module>
         <module>infrastructure</module>
-        <module>customer-service</module>
         <module>payment-service</module>
         <module>restaurant-service</module>
     </modules>
@@ -83,6 +82,11 @@
             </dependency>
             <dependency>
                 <groupId>com.food.ordering.system</groupId>
+                <artifactId>payment-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
                 <artifactId>payment-dataaccess</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -111,32 +115,37 @@
                 <artifactId>restaurant-messaging</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>restaurant-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
-            <dependency>
-                <groupId>com.food.ordering.system</groupId>
-                <artifactId>customer-domain-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.food.ordering.system</groupId>
-                <artifactId>customer-application-service</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.food.ordering.system</groupId>
-                <artifactId>customer-application</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.food.ordering.system</groupId>
-                <artifactId>customer-dataaccess</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.food.ordering.system</groupId>
-                <artifactId>customer-messaging</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+            <!--            <dependency>-->
+            <!--                <groupId>com.food.ordering.system</groupId>-->
+            <!--                <artifactId>customer-domain-core</artifactId>-->
+            <!--                <version>${project.version}</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.food.ordering.system</groupId>-->
+            <!--                <artifactId>customer-application-service</artifactId>-->
+            <!--                <version>${project.version}</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.food.ordering.system</groupId>-->
+            <!--                <artifactId>customer-application</artifactId>-->
+            <!--                <version>${project.version}</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.food.ordering.system</groupId>-->
+            <!--                <artifactId>customer-dataaccess</artifactId>-->
+            <!--                <version>${project.version}</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.food.ordering.system</groupId>-->
+            <!--                <artifactId>customer-messaging</artifactId>-->
+            <!--                <version>${project.version}</version>-->
+            <!--            </dependency>-->
 
             <dependency>
                 <groupId>com.food.ordering.system</groupId>

@@ -42,7 +42,7 @@ spec:
   ports:
     - name: payment-service-port
       protocol: TCP
-      port: 8182
+      port: 80
       targetPort: 8182
   type: LoadBalancer
   loadBalancerIP: ''

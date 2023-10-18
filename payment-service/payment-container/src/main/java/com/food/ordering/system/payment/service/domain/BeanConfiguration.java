@@ -10,4 +10,9 @@ public class BeanConfiguration {
     public PaymentDomainService paymentDomainService() {
         return new PaymentDomainServiceImpl();
     }
+
+    @Bean
+    public DepositDomainService depositDomainService() {
+        return new DepositDomainServiceImpl();
+    }
 }

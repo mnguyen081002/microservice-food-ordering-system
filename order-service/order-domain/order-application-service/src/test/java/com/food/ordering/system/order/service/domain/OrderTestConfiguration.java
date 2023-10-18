@@ -2,8 +2,10 @@ package com.food.ordering.system.order.service.domain;
 
 import com.food.ordering.system.order.service.domain.ports.output.message.publisher.payment.PaymentRequestMessagePublisher;
 import com.food.ordering.system.order.service.domain.ports.output.message.publisher.restaurantapproval.RestaurantApprovalRequestMessagePublisher;
-import com.food.ordering.system.order.service.domain.ports.output.repository.*;
-import org.mockito.Mock;
+import com.food.ordering.system.order.service.domain.ports.output.repository.ApprovalOutboxRepository;
+import com.food.ordering.system.order.service.domain.ports.output.repository.CustomerRepository;
+import com.food.ordering.system.order.service.domain.ports.output.repository.OrderRepository;
+import com.food.ordering.system.order.service.domain.ports.output.repository.PaymentOutboxRepository;
 import org.mockito.Mockito;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -29,11 +31,6 @@ public class OrderTestConfiguration {
     @Bean
     public CustomerRepository customerRepository() {
         return Mockito.mock(CustomerRepository.class);
-    }
-
-    @Bean
-    public RestaurantRepository restaurantRepository() {
-        return Mockito.mock(RestaurantRepository.class);
     }
 
     @Bean

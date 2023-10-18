@@ -10,6 +10,7 @@ import com.food.ordering.system.order.service.domain.entity.Product;
 import com.food.ordering.system.order.service.domain.valueobject.OrderItemId;
 import com.food.ordering.system.order.service.domain.valueobject.StreetAddress;
 import com.food.ordering.system.order.service.domain.valueobject.TrackingId;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 
 import static com.food.ordering.system.order.service.domain.entity.Order.FAILURE_MESSAGE_DELIMITER;
 
+@Slf4j
 @Component
 public class OrderDataAccessMapper {
 
@@ -61,7 +63,13 @@ public class OrderDataAccessMapper {
         return items.stream()
                 .map(orderItemEntity -> OrderItem.builder()
                         .orderItemId(new OrderItemId(orderItemEntity.getId()))
-                        .product(new Product(new ProductId(orderItemEntity.getProductId())))
+                        .product(new Product(
+                                        new ProductId(orderItemEntity.getProductId()),
+                                        orderItemEntity.getProductName(),
+                                        new Money(orderItemEntity.getPrice()
+                                        )
+                                )
+                        )
                         .price(new Money(orderItemEntity.getPrice()))
                         .quantity(orderItemEntity.getQuantity())
                         .subTotal(new Money(orderItemEntity.getSubTotal()))
@@ -82,6 +90,7 @@ public class OrderDataAccessMapper {
                         .id(orderItem.getId().getValue())
                         .productId(orderItem.getProduct().getId().getValue())
                         .price(orderItem.getPrice().getAmount())
+                        .productName(orderItem.getProduct().getName())
                         .quantity(orderItem.getQuantity())
                         .subTotal(orderItem.getSubTotal().getAmount())
                         .build())
@@ -95,5 +104,12 @@ public class OrderDataAccessMapper {
                 .postalCode(deliveryAddress.getPostalCode())
                 .city(deliveryAddress.getCity())
                 .build();
+    }
+
+    public List<Order> orderEntitiesToOrders(List<OrderEntity> orderEntities) {
+        log.debug("orderEntitiesToOrders: {}", orderEntities.get(0).getId());
+        return orderEntities.stream()
+                .map(this::orderEntityToOrder)
+                .collect(Collectors.toList());
     }
 }

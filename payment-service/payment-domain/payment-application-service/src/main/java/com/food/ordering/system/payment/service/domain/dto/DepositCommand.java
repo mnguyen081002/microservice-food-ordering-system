@@ -11,7 +11,7 @@ import java.util.UUID;
 @Getter
 @Builder
 @AllArgsConstructor
-public class AddCreditEntryCommand {
+public class DepositCommand {
     @NotNull
     private final UUID customerId;
     @NotNull

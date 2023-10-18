@@ -8,7 +8,9 @@ import com.food.ordering.system.order.service.domain.ports.output.repository.Ord
 import com.food.ordering.system.order.service.domain.valueobject.TrackingId;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 public class OrderRepositoryImpl implements OrderRepository {
@@ -37,5 +39,10 @@ public class OrderRepositoryImpl implements OrderRepository {
     public Optional<Order> findByTrackingId(TrackingId trackingId) {
         return orderJpaRepository.findByTrackingId(trackingId.getValue())
                 .map(orderDataAccessMapper::orderEntityToOrder);
+    }
+
+    @Override
+    public Optional<List<Order>> findByCustomerId(UUID customerId) {
+        return orderJpaRepository.findByCustomerId(customerId).map(orderDataAccessMapper::orderEntitiesToOrders);
     }
 }

@@ -37,10 +37,10 @@ public class ApprovalOutboxRepositoryImpl implements ApprovalOutboxRepository {
 
     @Override
     public Optional<List<OrderApprovalOutboxMessage>> findByTypeAndOutboxStatusAndSagaStatus(String sagaType,
-                                                                                       OutboxStatus outboxStatus,
-                                                                       SagaStatus... sagaStatus) {
+                                                                                             OutboxStatus outboxStatus,
+                                                                                             SagaStatus... sagaStatus) {
         return Optional.of(approvalOutboxJpaRepository.findByTypeAndOutboxStatusAndSagaStatusIn(sagaType, outboxStatus,
-                Arrays.asList(sagaStatus))
+                        Arrays.asList(sagaStatus))
                 .orElseThrow(() -> new ApprovalOutboxNotFoundException("Approval outbox object " +
                         "could be found for saga type " + sagaType))
                 .stream()

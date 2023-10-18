@@ -1,2 +1,17 @@
-package com.food.ordering.system.payment.service.domain.mapper;public class CreditEntryDataMapper {
+package com.food.ordering.system.payment.service.domain.mapper;
+
+import com.food.ordering.system.payment.service.domain.dto.DepositResponse;
+import com.food.ordering.system.payment.service.domain.entity.CreditEntry;
+import org.springframework.stereotype.Component;
+
+@Component
+
+public class CreditEntryDataMapper {
+    public DepositResponse creditEntryToAddCreditEntryResponse(CreditEntry creditEntry) {
+        return DepositResponse.builder()
+                .creditEntryId(creditEntry.getId().getValue().toString())
+                .customerId(creditEntry.getCustomerId().getValue())
+                .message("Credit entry added successfully")
+                .build();
+    }
 }

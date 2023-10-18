@@ -99,7 +99,7 @@ public class OrderApprovalSaga implements SagaStep<RestaurantApprovalResponse> {
                 domainEvent.getOrder().getOrderStatus(), sagaStatus));
 
         paymentOutboxHelper.savePaymentOutboxMessage(orderDataMapper
-                .orderCancelledEventToOrderPaymentEventPayload(domainEvent),
+                        .orderCancelledEventToOrderPaymentEventPayload(domainEvent),
                 domainEvent.getOrder().getOrderStatus(),
                 sagaStatus,
                 OutboxStatus.STARTED,

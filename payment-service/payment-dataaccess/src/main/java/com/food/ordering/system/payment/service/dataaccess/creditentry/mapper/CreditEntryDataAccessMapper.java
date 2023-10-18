@@ -19,11 +19,14 @@ public class CreditEntryDataAccessMapper {
     }
 
     public CreditEntryEntity creditEntryToCreditEntryEntity(CreditEntry creditEntry) {
-        return CreditEntryEntity.builder()
-                .id(creditEntry.getId().getValue())
+        CreditEntryEntity.CreditEntryEntityBuilder builder = CreditEntryEntity.builder();
+        if (creditEntry.getId() != null) {
+            builder.id(creditEntry.getId().getValue());
+        }
+
+        return builder
                 .customerId(creditEntry.getCustomerId().getValue())
                 .totalCreditAmount(creditEntry.getTotalCreditAmount().getAmount())
                 .build();
     }
-
 }

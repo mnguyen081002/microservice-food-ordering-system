@@ -1,8 +1,10 @@
 package com.food.ordering.system.payment.service.dataaccess.creditentry.entity;
 
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigDecimal;
@@ -19,6 +21,11 @@ import java.util.UUID;
 public class CreditEntryEntity {
 
     @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
     private UUID id;
     private UUID customerId;
     private BigDecimal totalCreditAmount;

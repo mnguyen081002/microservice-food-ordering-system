@@ -10,6 +10,7 @@ public class Restaurant extends AggregateRoot<RestaurantId> {
     private boolean active;
 
     private Restaurant(Builder builder) {
+        super();
         super.setId(builder.restaurantId);
         products = builder.products;
         active = builder.active;

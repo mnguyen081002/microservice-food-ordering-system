@@ -23,7 +23,7 @@ public class PaymentOutboxDataAccessMapper {
     }
 
     public OrderPaymentOutboxMessage paymentOutboxEntityToOrderPaymentOutboxMessage(PaymentOutboxEntity
-                                                                               paymentOutboxEntity) {
+                                                                                            paymentOutboxEntity) {
         return OrderPaymentOutboxMessage.builder()
                 .id(paymentOutboxEntity.getId())
                 .sagaId(paymentOutboxEntity.getSagaId())

@@ -1,4 +1,4 @@
-package com.food.ordering.system.restaurant.service.dataaccess.restaurant.repository;
+package com.food.ordering.system.dataaccess.restaurant.repository;
 
 import com.food.ordering.system.dataaccess.restaurant.entity.RestaurantEntity;
 import com.food.ordering.system.dataaccess.restaurant.entity.RestaurantEntityId;
@@ -13,4 +13,6 @@ import java.util.UUID;
 public interface RestaurantJpaRepository extends JpaRepository<RestaurantEntity, RestaurantEntityId> {
 
     Optional<List<RestaurantEntity>> findByRestaurantIdAndProductIdIn(UUID restaurantId, List<UUID> productIds);
+
+    Optional<List<RestaurantEntity>> findByRestaurantId(UUID restaurantId);
 }

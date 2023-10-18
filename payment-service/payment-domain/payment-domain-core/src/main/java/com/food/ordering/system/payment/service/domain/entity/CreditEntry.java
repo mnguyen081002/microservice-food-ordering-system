@@ -5,6 +5,8 @@ import com.food.ordering.system.domain.valueobject.CustomerId;
 import com.food.ordering.system.domain.valueobject.Money;
 import com.food.ordering.system.payment.service.domain.valueobject.CreditEntryId;
 
+import java.util.UUID;
+
 public class CreditEntry extends BaseEntity<CreditEntryId> {
 
     private final CustomerId customerId;
@@ -16,6 +18,12 @@ public class CreditEntry extends BaseEntity<CreditEntryId> {
 
     public void subtractCreditAmount(Money amount) {
         totalCreditAmount = totalCreditAmount.subtract(amount);
+    }
+
+    public CreditEntry(CustomerId customerId, Money totalCreditAmount) {
+        setId(new CreditEntryId(UUID.randomUUID()));
+        this.customerId = customerId;
+        this.totalCreditAmount = totalCreditAmount;
     }
 
     private CreditEntry(Builder builder) {

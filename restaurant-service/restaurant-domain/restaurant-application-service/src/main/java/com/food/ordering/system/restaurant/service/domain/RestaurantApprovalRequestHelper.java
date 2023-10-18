@@ -33,7 +33,6 @@ public class RestaurantApprovalRequestHelper {
     private final RestaurantApprovalResponseMessagePublisher restaurantApprovalResponseMessagePublisher;
 
 
-
     public RestaurantApprovalRequestHelper(RestaurantDomainService restaurantDomainService,
                                            RestaurantDataMapper restaurantDataMapper,
                                            RestaurantRepository restaurantRepository,
@@ -88,10 +87,10 @@ public class RestaurantApprovalRequestHelper {
         restaurant.setActive(restaurantEntity.isActive());
         restaurant.getOrderDetail().getProducts().forEach(product ->
                 restaurantEntity.getOrderDetail().getProducts().forEach(p -> {
-            if (p.getId().equals(product.getId())) {
-                product.updateWithConfirmedNamePriceAndAvailability(p.getName(), p.getPrice(), p.isAvailable());
-            }
-        }));
+                    if (p.getId().equals(product.getId())) {
+                        product.updateWithConfirmedNamePriceAndAvailability(p.getName(), p.getPrice(), p.isAvailable());
+                    }
+                }));
         restaurant.getOrderDetail().setId(new OrderId(UUID.fromString(restaurantApprovalRequest.getOrderId())));
 
         return restaurant;

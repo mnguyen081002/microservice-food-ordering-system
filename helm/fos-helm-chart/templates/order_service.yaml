@@ -44,7 +44,7 @@ spec:
   ports:
     - name: order-service-port
       protocol: TCP
-      port: 8181
+      port: 80
       targetPort: 8181
   type: LoadBalancer
   loadBalancerIP: ''

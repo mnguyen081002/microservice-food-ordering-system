@@ -1,7 +1,7 @@
-package com.food.ordering.application.system.payment.service.application.rest;
+package com.food.ordering.system.payment.service.application.rest;
 
-import com.food.ordering.system.payment.service.domain.dto.AddCreditEntryCommand;
-import com.food.ordering.system.payment.service.domain.dto.AddCreditEntryResponse;
+import com.food.ordering.system.payment.service.domain.dto.DepositCommand;
+import com.food.ordering.system.payment.service.domain.dto.DepositResponse;
 import com.food.ordering.system.payment.service.domain.ports.input.service.PaymentApplicationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class PaymentController {
     }
 
     @PostMapping("/add-credit-entry")
-    public ResponseEntity<AddCreditEntryResponse> addCreditEntry(@RequestBody AddCreditEntryCommand addCreditEntryCommand) {
-        return ResponseEntity.ok(paymentApplicationService.addCreditEntry(addCreditEntryCommand));
+    public ResponseEntity<DepositResponse> addCreditEntry(@RequestBody DepositCommand depositCommand) {
+        return ResponseEntity.ok(paymentApplicationService.addCreditEntry(depositCommand));
     }
 }

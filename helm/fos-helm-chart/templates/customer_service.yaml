@@ -17,7 +17,7 @@ spec:
         - name: customer-service
           image: fos/customer-service:latest
           ports:
-            - containerPort: 8184
+            - containerPort: 8080
           imagePullPolicy: IfNotPresent
           env:
             - name: SPRING_DATASOURCE_URL
@@ -43,7 +43,7 @@ spec:
   ports:
     - name: customer-service-port
       protocol: TCP
-      port: 8184
-      targetPort: 8184
+      port: 80
+      targetPort: 8080
   type: LoadBalancer
   loadBalancerIP: ''

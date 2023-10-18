@@ -42,7 +42,7 @@ spec:
   ports:
     - name: restaurant-service-port
       protocol: TCP
-      port: 8183
+      port: 80
       targetPort: 8183
   type: LoadBalancer
   loadBalancerIP: ''

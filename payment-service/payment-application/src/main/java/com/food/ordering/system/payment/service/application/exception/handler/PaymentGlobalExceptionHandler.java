@@ -1,4 +1,4 @@
-package com.food.ordering.application.system.payment.service.application.exception.handler;
+package com.food.ordering.system.payment.service.application.exception.handler;
 
 import com.food.ordering.system.application.handler.ErrorDTO;
 import com.food.ordering.system.application.handler.GlobalExceptionHandler;

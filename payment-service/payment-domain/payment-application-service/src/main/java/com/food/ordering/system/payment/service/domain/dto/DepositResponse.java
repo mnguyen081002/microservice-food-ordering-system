@@ -10,7 +10,7 @@ import java.util.UUID;
 @Getter
 @Builder
 @AllArgsConstructor
-public class AddCreditEntryResponse {
+public class DepositResponse {
     @NotNull
     private final String message;
     @NotNull

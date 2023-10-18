@@ -19,6 +19,8 @@
         <module name="payment-application-service" />
         <module name="common-domain" />
         <module name="order-application" />
+        <module name="payment-application" />
+        <module name="restaurant-application" />
         <module name="customer-container" />
         <module name="restaurant-domain-core" />
         <module name="saga" />
@@ -72,6 +74,7 @@
       <module name="order-messaging" options="-parameters" />
       <module name="order-service" options="-parameters" />
       <module name="outbox" options="-parameters" />
+      <module name="payment-application" options="-parameters" />
       <module name="payment-application-service" options="-parameters" />
       <module name="payment-container" options="-parameters" />
       <module name="payment-dataaccess" options="-parameters" />
@@ -79,6 +82,7 @@
       <module name="payment-domain-core" options="-parameters" />
       <module name="payment-messaging" options="-parameters" />
       <module name="payment-service" options="-parameters" />
+      <module name="restaurant-application" options="-parameters" />
       <module name="restaurant-application-service" options="-parameters" />
       <module name="restaurant-container" options="-parameters" />
       <module name="restaurant-dataaccess" options="-parameters" />
