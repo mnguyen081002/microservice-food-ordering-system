@@ -29,6 +29,7 @@ public class RestaurantEntity {
     private String productName;
     private BigDecimal productPrice;
     private Boolean productAvailable;
+    private String productImageUrl;
 
     @Override
     public boolean equals(Object o) {

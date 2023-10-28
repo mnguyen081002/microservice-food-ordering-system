@@ -32,6 +32,7 @@ public class OrderDataAccessMapper {
                 .trackingId(order.getTrackingId().getValue())
                 .address(deliveryAddressToAddressEntity(order.getDeliveryAddress()))
                 .price(order.getPrice().getAmount())
+                .createdAt(order.getCreatedAt())
                 .items(orderItemsToOrderItemEntities(order.getItems()))
                 .orderStatus(order.getOrderStatus())
                 .failureMessages(order.getFailureMessages() != null ?
@@ -52,6 +53,7 @@ public class OrderDataAccessMapper {
                 .price(new Money(orderEntity.getPrice()))
                 .items(orderItemEntitiesToOrderItems(orderEntity.getItems()))
                 .trackingId(new TrackingId(orderEntity.getTrackingId()))
+                .createdAt(orderEntity.getCreatedAt())
                 .orderStatus(orderEntity.getOrderStatus())
                 .failureMessages(orderEntity.getFailureMessages().isEmpty() ? new ArrayList<>() :
                         new ArrayList<>(Arrays.asList(orderEntity.getFailureMessages()
@@ -107,7 +109,6 @@ public class OrderDataAccessMapper {
     }
 
     public List<Order> orderEntitiesToOrders(List<OrderEntity> orderEntities) {
-        log.debug("orderEntitiesToOrders: {}", orderEntities.get(0).getId());
         return orderEntities.stream()
                 .map(this::orderEntityToOrder)
                 .collect(Collectors.toList());

@@ -125,6 +125,7 @@ public class OrderDataMapper {
                         .restaurantId(order.getRestaurantId().getValue())
                         .failureMessage(order.getFailureMessages())
                         .streetAddress(order.getDeliveryAddress())
+                        .createdAt(order.getCreatedAt())
                         .orderItems(order.getItems().stream().map(orderItem -> OrderItemResponse
                                         .builder()
                                         .productName(orderItem.getProduct().getName())

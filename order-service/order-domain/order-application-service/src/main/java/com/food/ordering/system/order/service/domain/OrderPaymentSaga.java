@@ -141,6 +141,9 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
         log.info("Completing payment for order with id: {}", paymentResponse.getOrderId());
         Order order = findOrder(paymentResponse.getOrderId());
         OrderPaidEvent domainEvent = orderDomainService.payOrder(order);
+
+        log.debug("!!!!!!!!!!!!!!!!!!!!!! {} {}", order.getCreatedAt(), order.getOrderStatus().name());
+
         orderRepository.save(order);
         return domainEvent;
     }

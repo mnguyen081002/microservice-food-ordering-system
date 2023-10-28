@@ -2,6 +2,9 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/order-service/order-container/src/main/resources/init-schema.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/order-service/order-container/src/test/resources/sql/OrderPaymentSagaTestSetUp.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/order-service/order-dataaccess/src/main/java/com/food/ordering/system/order/service/dataaccess/order/repository/OrderJpaRepository.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/restaurant-service/restaurant-container/src/main/resources/init-data.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/restaurant-service/restaurant-container/src/main/resources/init-schema.sql" dialect="PostgreSQL" />
   </component>
 </project>

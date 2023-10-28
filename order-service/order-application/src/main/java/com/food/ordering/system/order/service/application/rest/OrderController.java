@@ -3,6 +3,7 @@ package com.food.ordering.system.order.service.application.rest;
 import com.food.ordering.system.order.service.domain.dto.create.CreateOrderCommand;
 import com.food.ordering.system.order.service.domain.dto.create.CreateOrderResponse;
 import com.food.ordering.system.order.service.domain.dto.list.GetOrdersByCustomerIdQuery;
+import com.food.ordering.system.order.service.domain.dto.list.ListOrdersResponse;
 import com.food.ordering.system.order.service.domain.dto.list.OrderResponse;
 import com.food.ordering.system.order.service.domain.dto.track.TrackOrderQuery;
 import com.food.ordering.system.order.service.domain.dto.track.TrackOrderResponse;
@@ -37,10 +38,10 @@ public class OrderController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<OrderResponse>> getOrdersByCustomerId(@RequestHeader("X-User-Id") UUID xuserid) {
+    public ResponseEntity<ListOrdersResponse> getOrdersByCustomerId(@RequestHeader("X-User-Id") UUID xuserid) {
         List<OrderResponse> orderResponses = orderApplicationService.getOrdersByCustomerId(GetOrdersByCustomerIdQuery.builder().customerId(xuserid).build());
         log.info("Returning orders for customer: {}", xuserid);
-        return ResponseEntity.ok(orderResponses);
+        return ResponseEntity.ok(ListOrdersResponse.builder().orders(orderResponses).build());
     }
 
     @GetMapping("/{trackingId}")

@@ -14,7 +14,7 @@ order-service:
   outbox-scheduler-fixed-rate: 10000
   outbox-scheduler-initial-delay: 10000
 
-  restaurant-service-host: http://localhost:8183
+  restaurant-service-host: http://restaurant-service
 
 spring:
   jpa:

@@ -60,6 +60,9 @@ public class OrderCreateHelper {
     }
 
     private Order saveOrder(Order order) {
+
+        log.debug("Saving order: {}", order.getCreatedAt());
+
         Order orderResult = orderRepository.save(order);
         if (orderResult == null) {
             log.error("Could not save order!");

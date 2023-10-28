@@ -14,6 +14,6 @@ public class RestaurantProductResponse {
     private UUID id;
     private String name;
     private BigDecimal price;
-    private Integer quantity;
     private Boolean available;
+    private String imageUrl;
 }

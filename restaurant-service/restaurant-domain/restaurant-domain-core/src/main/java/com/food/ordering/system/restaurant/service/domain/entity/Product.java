@@ -8,6 +8,7 @@ public class Product extends BaseEntity<ProductId> {
     private String name;
     private Money price;
     private final int quantity;
+    private final String imageUrl;
     private boolean available;
 
     public void updateWithConfirmedNamePriceAndAvailability(String name, Money price, boolean available) {
@@ -22,6 +23,7 @@ public class Product extends BaseEntity<ProductId> {
         price = builder.price;
         quantity = builder.quantity;
         available = builder.available;
+        imageUrl = builder.imageUrl;
     }
 
     public static Builder builder() {
@@ -44,12 +46,17 @@ public class Product extends BaseEntity<ProductId> {
         return available;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
     public static final class Builder {
         private ProductId productId;
         private String name;
         private Money price;
         private int quantity;
         private boolean available;
+        private String imageUrl;
 
         private Builder() {
         }
@@ -76,6 +83,11 @@ public class Product extends BaseEntity<ProductId> {
 
         public Builder available(boolean val) {
             available = val;
+            return this;
+        }
+
+        public Builder imageUrl(String val) {
+            imageUrl = val;
             return this;
         }
 

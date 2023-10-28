@@ -2,9 +2,11 @@ package com.food.ordering.system.order.service.dataaccess.order.entity;
 
 import com.food.ordering.system.domain.valueobject.OrderStatus;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -26,6 +28,8 @@ public class OrderEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
     private String failureMessages;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private OrderAddressEntity address;

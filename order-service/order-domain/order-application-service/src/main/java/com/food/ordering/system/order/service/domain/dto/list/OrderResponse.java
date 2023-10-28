@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,5 +23,6 @@ public class OrderResponse {
     private final List<String> failureMessage;
     private final StreetAddress streetAddress;
     private final BigDecimal price;
+    private final LocalDateTime createdAt;
     private final List<OrderItemResponse> orderItems;
 }

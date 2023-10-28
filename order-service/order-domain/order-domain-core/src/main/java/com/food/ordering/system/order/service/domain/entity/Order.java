@@ -6,16 +6,21 @@ import com.food.ordering.system.order.service.domain.exception.OrderDomainExcept
 import com.food.ordering.system.order.service.domain.valueobject.OrderItemId;
 import com.food.ordering.system.order.service.domain.valueobject.StreetAddress;
 import com.food.ordering.system.order.service.domain.valueobject.TrackingId;
+import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@Getter
 public class Order extends AggregateRoot<OrderId> {
     private final CustomerId customerId;
     private final RestaurantId restaurantId;
     private final StreetAddress deliveryAddress;
     private final Money price;
     private final List<OrderItem> items;
+
+    private final LocalDateTime createdAt;
 
     private TrackingId trackingId;
     private OrderStatus orderStatus;
@@ -123,42 +128,11 @@ public class Order extends AggregateRoot<OrderId> {
         trackingId = builder.trackingId;
         orderStatus = builder.orderStatus;
         failureMessages = builder.failureMessages;
+        createdAt = builder.createdAt;
     }
 
     public static Builder builder() {
         return new Builder();
-    }
-
-    public CustomerId getCustomerId() {
-        return customerId;
-    }
-
-    public RestaurantId getRestaurantId() {
-        return restaurantId;
-    }
-
-    public StreetAddress getDeliveryAddress() {
-        return deliveryAddress;
-    }
-
-    public Money getPrice() {
-        return price;
-    }
-
-    public List<OrderItem> getItems() {
-        return items;
-    }
-
-    public TrackingId getTrackingId() {
-        return trackingId;
-    }
-
-    public OrderStatus getOrderStatus() {
-        return orderStatus;
-    }
-
-    public List<String> getFailureMessages() {
-        return failureMessages;
     }
 
     public static final class Builder {
@@ -170,6 +144,7 @@ public class Order extends AggregateRoot<OrderId> {
         private List<OrderItem> items;
         private TrackingId trackingId;
         private OrderStatus orderStatus;
+        private LocalDateTime createdAt;
         private List<String> failureMessages;
 
         private Builder() {
@@ -217,6 +192,11 @@ public class Order extends AggregateRoot<OrderId> {
 
         public Builder failureMessages(List<String> val) {
             failureMessages = val;
+            return this;
+        }
+
+        public Builder createdAt(LocalDateTime val) {
+            createdAt = val;
             return this;
         }
 

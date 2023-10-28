@@ -5,6 +5,7 @@ import com.food.ordering.system.domain.valueobject.OrderId;
 import com.food.ordering.system.domain.valueobject.OrderStatus;
 import com.food.ordering.system.domain.valueobject.RestaurantId;
 import com.food.ordering.system.restaurant.service.domain.dto.RestaurantApprovalRequest;
+import com.food.ordering.system.restaurant.service.domain.dto.get.GetRestaurantProductsResponse;
 import com.food.ordering.system.restaurant.service.domain.dto.get.GetRestaurantResponse;
 import com.food.ordering.system.restaurant.service.domain.dto.get.RestaurantProductResponse;
 import com.food.ordering.system.restaurant.service.domain.entity.OrderDetail;
@@ -52,7 +53,6 @@ public class RestaurantDataMapper {
         return GetRestaurantResponse.builder()
                 .products(restaurant.getOrderDetail().getProducts().stream().map(
                                 product -> RestaurantProductResponse.builder().id(product.getId().getValue())
-                                        .quantity(product.getQuantity())
                                         .name(product.getName())
                                         .price(product.getPrice().getAmount())
                                         .build()
@@ -60,6 +60,20 @@ public class RestaurantDataMapper {
                         .collect(Collectors.toList()))
                 .restaurantId(restaurant.getId().getValue())
                 .active(restaurant.isActive())
+                .build();
+    }
+
+    public GetRestaurantProductsResponse restaurantToGetRestaurantProductsResponse(Restaurant restaurant) {
+        return GetRestaurantProductsResponse.builder()
+                .products(restaurant.getOrderDetail().getProducts().stream().map(
+                                product -> RestaurantProductResponse.builder().id(product.getId().getValue())
+                                        .name(product.getName())
+                                        .price(product.getPrice().getAmount())
+                                        .available(product.isAvailable())
+                                        .imageUrl(product.getImageUrl())
+                                        .build()
+                        )
+                        .collect(Collectors.toList()))
                 .build();
     }
 }
