@@ -15,6 +15,7 @@ order-service:
   outbox-scheduler-initial-delay: 10000
 
   restaurant-service-host: http://restaurant-service
+#  restaurant-service-host: http://localhost:8183
 
 spring:
   jpa:

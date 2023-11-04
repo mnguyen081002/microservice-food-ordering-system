@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @Getter
@@ -17,7 +16,7 @@ public class OrderItem {
     @NotNull
     private final Integer quantity;
     @NotNull
-    private final BigDecimal price;
+    private final Integer price;
     @NotNull
-    private final BigDecimal subTotal;
+    private final Integer subTotal;
 }

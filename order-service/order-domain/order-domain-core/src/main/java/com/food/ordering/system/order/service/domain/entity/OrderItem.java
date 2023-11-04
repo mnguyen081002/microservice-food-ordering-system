@@ -4,7 +4,9 @@ import com.food.ordering.system.domain.entity.BaseEntity;
 import com.food.ordering.system.domain.valueobject.Money;
 import com.food.ordering.system.domain.valueobject.OrderId;
 import com.food.ordering.system.order.service.domain.valueobject.OrderItemId;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 public class OrderItem extends BaseEntity<OrderItemId> {
     private OrderId orderId;
     private final Product product;
@@ -18,6 +20,14 @@ public class OrderItem extends BaseEntity<OrderItemId> {
     }
 
     boolean isPriceValid() {
+        log.debug("Greater");
+        log.debug(price.isGreaterThanZero());
+        log.debug("Equal");
+        log.debug(price.equals(product.getPrice()));
+        log.debug("Multiply");
+        log.debug(price.multiply(quantity).equals(subTotal));
+
+
         return price.isGreaterThanZero() &&
                 price.equals(product.getPrice()) &&
                 price.multiply(quantity).equals(subTotal);

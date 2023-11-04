@@ -120,10 +120,10 @@ CREATE OR replace function restaurant.refresh_order_restaurant_m_view()
     returns trigger
 AS
 '
-BEGIN
-   refresh materialized VIEW restaurant.order_restaurant_m_view;
-   return null;
-END;
+    BEGIN
+        refresh materialized VIEW restaurant.order_restaurant_m_view;
+        return null;
+    END;
 ' LANGUAGE plpgsql;
 
 DROP trigger IF EXISTS refresh_order_restaurant_m_view ON restaurant.restaurant_products;

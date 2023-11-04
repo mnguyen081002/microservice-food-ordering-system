@@ -19,6 +19,7 @@ import com.food.ordering.system.order.service.domain.outbox.model.payment.OrderP
 import com.food.ordering.system.order.service.domain.valueobject.StreetAddress;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -42,7 +43,7 @@ public class OrderDataMapper {
                 .customerId(new CustomerId(createOrderCommand.getCustomerId()))
                 .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
                 .deliveryAddress(orderAddressToStreetAddress(createOrderCommand.getAddress()))
-                .price(new Money(createOrderCommand.getPrice()))
+                .price(new Money(BigDecimal.valueOf(createOrderCommand.getPrice())))
                 .items(orderItemsToOrderItemEntities(createOrderCommand.getItems()))
                 .build();
     }
@@ -146,9 +147,9 @@ public class OrderDataMapper {
                 .map(orderItem ->
                         OrderItem.builder()
                                 .product(new Product(new ProductId(orderItem.getProductId())))
-                                .price(new Money(orderItem.getPrice()))
+                                .price(new Money(BigDecimal.valueOf(orderItem.getPrice())))
                                 .quantity(orderItem.getQuantity())
-                                .subTotal(new Money(orderItem.getSubTotal()))
+                                .subTotal(new Money(BigDecimal.valueOf(orderItem.getSubTotal())))
                                 .build()).collect(Collectors.toList());
     }
 

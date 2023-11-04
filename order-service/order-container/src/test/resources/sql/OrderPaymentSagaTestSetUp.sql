@@ -4,9 +4,9 @@ values ('d215b5f8-0249-4dc5-89a3-51fd148cfb17', 'd215b5f8-0249-4dc5-89a3-51fd148
         'd215b5f8-0249-4dc5-89a3-51fd148cfb45',
         'd215b5f8-0249-4dc5-89a3-51fd148cfb18', 100.00, 'PENDING', '', '2022-01-07T16:21:42.917756+01:00');
 
-insert into "order".order_items(id, order_id, product_name, product_id, price, quantity, sub_total, product_image_url)
+insert into "order".order_items(id, order_id, product_name, product_id, price, quantity, sub_total)
 values (1, 'd215b5f8-0249-4dc5-89a3-51fd148cfb17', 'product_1', 'd215b5f8-0249-4dc5-89a3-51fd148cfb47', 100.00, 1,
-        100.00, '');
+        100.00);
 
 insert into "order".order_address(id, order_id, street, postal_code, city)
 values ('d215b5f8-0249-4dc5-89a3-51fd148cfb15', 'd215b5f8-0249-4dc5-89a3-51fd148cfb17', 'test street', '1000AA',

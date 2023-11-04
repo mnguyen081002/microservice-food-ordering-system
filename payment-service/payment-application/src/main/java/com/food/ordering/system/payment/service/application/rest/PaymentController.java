@@ -1,14 +1,14 @@
 package com.food.ordering.system.payment.service.application.rest;
 
+import com.food.ordering.system.payment.service.domain.dto.CreditResponse;
 import com.food.ordering.system.payment.service.domain.dto.DepositCommand;
 import com.food.ordering.system.payment.service.domain.dto.DepositResponse;
 import com.food.ordering.system.payment.service.domain.ports.input.service.PaymentApplicationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -23,5 +23,10 @@ public class PaymentController {
     @PostMapping("/add-credit-entry")
     public ResponseEntity<DepositResponse> addCreditEntry(@RequestBody DepositCommand depositCommand) {
         return ResponseEntity.ok(paymentApplicationService.addCreditEntry(depositCommand));
+    }
+
+    @GetMapping("/credit")
+    public ResponseEntity<CreditResponse> getCredit(@RequestHeader("X-User-Id") UUID xuserid) {
+        return ResponseEntity.ok(paymentApplicationService.getCredit(xuserid));
     }
 }

@@ -26,14 +26,14 @@ DROP TABLE IF EXISTS "order".order_items CASCADE;
 
 CREATE TABLE "order".order_items
 (
-    id                bigint         NOT NULL,
-    order_id          uuid           NOT NULL,
-    product_id        uuid           NOT NULL,
-    product_name      varchar        NOT NULL,
-    product_image_url varchar        NOT NULL,
-    price             numeric(10, 2) NOT NULL,
-    quantity          integer        NOT NULL,
-    sub_total         numeric(10, 2) NOT NULL,
+    id           bigint         NOT NULL,
+    order_id     uuid           NOT NULL,
+    product_id   uuid           NOT NULL,
+    product_name varchar        NOT NULL,
+--     product_image_url varchar        NOT NULL,
+    price        numeric(10, 2) NOT NULL,
+    quantity     integer        NOT NULL,
+    sub_total    numeric(10, 2) NOT NULL,
     CONSTRAINT order_items_pkey PRIMARY KEY (id, order_id)
 );
 

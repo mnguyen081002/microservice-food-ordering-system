@@ -1,12 +1,16 @@
 package infrastructure
 
 import (
+	"context"
 	"database/sql"
 	config "erp/config"
 	"erp/models"
 	"fmt"
+	"log"
 	"os"
 
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.uber.org/zap"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
@@ -14,8 +18,9 @@ import (
 )
 
 type Database struct {
-	*gorm.DB
-	logger *zap.Logger
+	RDBMS   *gorm.DB
+	NoSQLDB *mongo.Database
+	logger  *zap.Logger
 }
 
 func NewDatabase(config *config.Config, logger *zap.Logger) *Database {
@@ -23,10 +28,10 @@ func NewDatabase(config *config.Config, logger *zap.Logger) *Database {
 	var sqlDB *sql.DB
 
 	logger.Info("Connecting to database...")
-	gormDB, err := getDatabaseInstance(config)
+	rdbms, nosql, err := getDatabaseInstance(config)
 	if err != nil {
 		for i := 0; i < 5; i++ {
-			gormDB, err = getDatabaseInstance(config)
+			rdbms, nosql, err = getDatabaseInstance(config)
 			if err == nil {
 				break
 			}
@@ -39,25 +44,26 @@ func NewDatabase(config *config.Config, logger *zap.Logger) *Database {
 		logger.Info("Database connected")
 	}
 
-	db := &Database{gormDB, logger}
+	db := &Database{rdbms, nosql, logger}
 
-	db.RegisterTables()
+	if config.Database.Driver == "mysql" || config.Database.Driver == "postgres" {
+		db.RegisterTables()
 
-	if err != nil {
-		logger.Fatal("Database connection error", zap.Error(err))
+		if err != nil {
+			logger.Fatal("Database connection error", zap.Error(err))
+		}
+		sqlDB, err = db.RDBMS.DB()
+		if err != nil {
+			logger.Fatal("sqlDB connection error", zap.Error(err))
+		}
+
+		sqlDB.SetMaxIdleConns(10)
+		sqlDB.SetMaxOpenConns(100)
 	}
-	sqlDB, err = db.DB.DB()
-	if err != nil {
-		logger.Fatal("sqlDB connection error", zap.Error(err))
-	}
-
-	sqlDB.SetMaxIdleConns(10)
-	sqlDB.SetMaxOpenConns(100)
-
 	return db
 }
 
-func getDatabaseInstance(config *config.Config) (db *gorm.DB, err error) {
+func getDatabaseInstance(config *config.Config) (rdbms *gorm.DB, nosql *mongo.Database, err error) {
 	switch config.Database.Driver {
 	case "mysql":
 		dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local",
@@ -67,27 +73,44 @@ func getDatabaseInstance(config *config.Config) (db *gorm.DB, err error) {
 			config.Database.Port,
 			config.Database.Name,
 		)
-		db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+		rdbms, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 		if err != nil {
-			return nil, fmt.Errorf("failed to connect database: %w", err)
+			return nil, nil, fmt.Errorf("failed to connect database: %w", err)
 		}
 	case "postgres":
 		dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=%s TimeZone=%s",
 			config.Database.Host, config.Database.Username, config.Database.Password, config.Database.Name,
 			config.Database.Port, config.Database.SSLMode, config.Database.TimeZone)
-		db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+		rdbms, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 		if err != nil {
-			return nil, fmt.Errorf("failed to connect database: %w", err)
+			return nil, nil, fmt.Errorf("failed to connect database: %w", err)
 		}
 
-		db.Exec("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";")
+		rdbms.Exec("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";")
+
+	case "mongodb":
+		ctx := context.TODO()
+		uri := fmt.Sprintf("mongodb://%s:%s@%s:%d", config.Database.Username, config.Database.Password, config.Database.Host, config.Database.Port)
+		clientOptions := options.Client().ApplyURI(uri)
+		client, err := mongo.Connect(ctx, clientOptions)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		err = client.Ping(ctx, nil)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		nosql = client.Database(config.Database.Name)
 	}
-	return db, nil
+
+	return rdbms, nosql, nil
 }
 
 func (d Database) RegisterTables() {
-	err := d.DB.AutoMigrate(
+	err := d.RDBMS.AutoMigrate(
 		models.User{},
 	)
 

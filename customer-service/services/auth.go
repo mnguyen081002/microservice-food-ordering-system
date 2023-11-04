@@ -1,11 +1,14 @@
 package service
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"erp/api_errors"
 	config "erp/config"
 	"erp/domain"
 	models "erp/models"
+	"net/http"
 
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/bcrypt"
@@ -73,6 +76,24 @@ func (a *authService) Register(ctx context.Context, req domain.RegisterRequest) 
 		Email:    req.Email,
 		Password: req.Password,
 	})
+
+	httpClient := http.Client{}
+
+	body := map[string]interface{}{
+		"customerId": user.ID,
+		"amount":     10000.00,
+	}
+
+	bodyJson, _ := json.Marshal(body)
+
+	bodyToSend := bytes.NewBuffer(bodyJson)
+
+	res, err := httpClient.Post("http://payment-service/payments/add-credit-entry", "application/json", bodyToSend)
+	if err != nil {
+		return nil, err
+	}
+
+	defer res.Body.Close()
 
 	return user, err
 }

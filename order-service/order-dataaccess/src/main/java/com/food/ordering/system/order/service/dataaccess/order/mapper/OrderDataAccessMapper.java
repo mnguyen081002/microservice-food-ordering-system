@@ -109,8 +109,16 @@ public class OrderDataAccessMapper {
     }
 
     public List<Order> orderEntitiesToOrders(List<OrderEntity> orderEntities) {
-        return orderEntities.stream()
-                .map(this::orderEntityToOrder)
-                .collect(Collectors.toList());
+//        return orderEntities.stream()
+//                .map(this::orderEntityToOrder)
+//                .collect(Collectors.toList());
+        // remove duplicate orders
+        List<Order> orders = new ArrayList<>();
+        for (OrderEntity orderEntity : orderEntities) {
+            if (orders.stream().noneMatch(order -> order.getTrackingId().equals(new TrackingId(orderEntity.getTrackingId())))) {
+                orders.add(orderEntityToOrder(orderEntity));
+            }
+        }
+        return orders;
     }
 }

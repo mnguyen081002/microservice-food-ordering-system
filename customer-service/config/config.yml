@@ -11,12 +11,17 @@ server:
 services:
 
 database:
-  driver: 'postgres'
-  host: '192.168.49.2'
-  port: 31145
-  username: 'postgres'
-  password: 'postgres'
-  name: 'postgres'
+  # driver: 'postgres'
+  # host: 'postgres-service'
+  # port: 5432
+  # username: 'postgres'
+  # password: 'admin'
+  driver: 'mongodb'
+  host: 'localhost'
+  port: 27017
+  username: 'mongodb'
+  password: 'admin'
+  name: 'user'
   sslmode: 'disable'
   timezone: 'Asia/Ho_Chi_Minh'
   maxOpenConnections: 10

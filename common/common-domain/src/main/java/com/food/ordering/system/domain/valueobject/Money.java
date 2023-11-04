@@ -1,9 +1,12 @@
 package com.food.ordering.system.domain.valueobject;
 
+import lombok.extern.log4j.Log4j2;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
 
+@Log4j2
 public class Money {
     private final BigDecimal amount;
 
@@ -42,7 +45,9 @@ public class Money {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Money money = (Money) o;
-        return amount.equals(money.amount);
+        log.debug(money.amount);
+        log.debug(amount);
+        return BigDecimal.valueOf(money.amount.doubleValue()).compareTo(BigDecimal.valueOf(amount.doubleValue())) == 0;
     }
 
     @Override
