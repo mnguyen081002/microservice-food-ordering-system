@@ -17,7 +17,7 @@ database:
   # username: 'postgres'
   # password: 'admin'
   driver: 'mongodb'
-  host: 'localhost'
+  host: 'mongo-service'
   port: 27017
   username: 'mongodb'
   password: 'admin'
