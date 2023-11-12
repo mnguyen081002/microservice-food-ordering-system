@@ -1,0 +1,79 @@
+package com.food.ordering.system.restaurant.service.domain.mapper;
+
+import com.food.ordering.system.domain.valueobject.Money;
+import com.food.ordering.system.domain.valueobject.OrderId;
+import com.food.ordering.system.domain.valueobject.OrderStatus;
+import com.food.ordering.system.domain.valueobject.RestaurantId;
+import com.food.ordering.system.restaurant.service.domain.dto.RestaurantApprovalRequest;
+import com.food.ordering.system.restaurant.service.domain.dto.get.GetRestaurantProductsResponse;
+import com.food.ordering.system.restaurant.service.domain.dto.get.GetRestaurantResponse;
+import com.food.ordering.system.restaurant.service.domain.dto.get.RestaurantProductResponse;
+import com.food.ordering.system.restaurant.service.domain.entity.OrderDetail;
+import com.food.ordering.system.restaurant.service.domain.entity.Product;
+import com.food.ordering.system.restaurant.service.domain.entity.Restaurant;
+import com.food.ordering.system.restaurant.service.domain.event.OrderApprovalEvent;
+import com.food.ordering.system.restaurant.service.domain.outbox.model.OrderEventPayload;
+import org.springframework.stereotype.Component;
+
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+@Component
+public class RestaurantDataMapper {
+    public Restaurant restaurantApprovalRequestToRestaurant(RestaurantApprovalRequest
+                                                                    restaurantApprovalRequest) {
+        return Restaurant.builder()
+                .restaurantId(new RestaurantId(UUID.fromString(restaurantApprovalRequest.getRestaurantId())))
+                .orderDetail(OrderDetail.builder()
+                        .orderId(new OrderId(UUID.fromString(restaurantApprovalRequest.getOrderId())))
+                        .products(restaurantApprovalRequest.getProducts().stream().map(
+                                        product -> Product.builder()
+                                                .productId(product.getId())
+                                                .quantity(product.getQuantity())
+                                                .build())
+                                .collect(Collectors.toList()))
+                        .totalAmount(new Money(restaurantApprovalRequest.getPrice()))
+                        .orderStatus(OrderStatus.valueOf(restaurantApprovalRequest.getRestaurantOrderStatus().name()))
+                        .build())
+                .build();
+    }
+
+    public OrderEventPayload
+    orderApprovalEventToOrderEventPayload(OrderApprovalEvent orderApprovalEvent) {
+        return OrderEventPayload.builder()
+                .orderId(orderApprovalEvent.getOrderApproval().getOrderId().getValue().toString())
+                .restaurantId(orderApprovalEvent.getRestaurantId().getValue().toString())
+                .orderApprovalStatus(orderApprovalEvent.getOrderApproval().getApprovalStatus().name())
+                .createdAt(orderApprovalEvent.getCreatedAt())
+                .failureMessages(orderApprovalEvent.getFailureMessages())
+                .build();
+    }
+
+    public GetRestaurantResponse restaurantToGetRestaurantResponse(Restaurant restaurant) {
+        return GetRestaurantResponse.builder()
+                .products(restaurant.getOrderDetail().getProducts().stream().map(
+                                product -> RestaurantProductResponse.builder().id(product.getId().getValue())
+                                        .name(product.getName())
+                                        .price(product.getPrice().getAmount())
+                                        .build()
+                        )
+                        .collect(Collectors.toList()))
+                .restaurantId(restaurant.getId().getValue())
+                .active(restaurant.isActive())
+                .build();
+    }
+
+    public GetRestaurantProductsResponse restaurantToGetRestaurantProductsResponse(Restaurant restaurant) {
+        return GetRestaurantProductsResponse.builder()
+                .products(restaurant.getOrderDetail().getProducts().stream().map(
+                                product -> RestaurantProductResponse.builder().id(product.getId().getValue())
+                                        .name(product.getName())
+                                        .price(product.getPrice().getAmount())
+                                        .available(product.isAvailable())
+                                        .imageUrl(product.getImageUrl())
+                                        .build()
+                        )
+                        .collect(Collectors.toList()))
+                .build();
+    }
+}

@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: schema-registry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: schema-registry
+  template:
+    metadata:
+      labels:
+        app: schema-registry
+    spec:
+      containers:
+        - name: schema-registry
+          image: docker.io/confluentinc/cp-schema-registry:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8081
+          env:
+            - name: HOSTNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: SCHEMA_REGISTRY_HOST_NAME
+              value: schema-registry
+            - name: SCHEMA_REGISTRY_LISTENERS
+              value: http://0.0.0.0:8081
+            - name: SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS
+              value: 'PLAINTEXT://kafka-svc:9092'
+            - name: SCHEMA_REGISTRY_DEBUG
+              value: 'true'
+          resources:
+            limits:
+              cpu: '500m'
+              memory: '1024Mi'
+            requests:
+              cpu: '200m'
+              memory: '256Mi'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: schema-registry-service
+spec:
+  selector:
+    app: schema-registry
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+  type: NodePort

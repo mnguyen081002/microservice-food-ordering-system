@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-deployment
+  namespace: default
+  labels:
+    app: order-deployment
+spec:
+  selector:
+    matchLabels:
+      app: order-deployment
+  template:
+    metadata:
+      labels:
+        app: order-deployment
+    spec:
+      containers:
+        - name: order-service
+          image: fos/order-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8181
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: 'jdbc:postgresql://postgres-service:5432/postgres?currentSchema=order&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified'
+            - name: KAFKA-CONFIG_BOOTSTRAP-SERVERS
+              value: 'kafka-svc:9092'
+            - name: KAFKA-CONFIG_SCHEMA-REGISTRY-URL
+              value: 'http://schema-registry-service:8081'
+          resources:
+            limits:
+              memory: '1024Mi'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service
+  namespace: default
+  labels:
+    app: order-service
+spec:
+  selector:
+    app: order-deployment
+  ports:
+    - name: order-service-port
+      protocol: TCP
+      port: 80
+      targetPort: 8181
+  type: LoadBalancer
+  loadBalancerIP: ''

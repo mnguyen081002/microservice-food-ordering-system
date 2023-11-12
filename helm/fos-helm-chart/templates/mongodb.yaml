@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-deployment
+  namespace: default
+  labels:
+    app: mongo-deployment
+spec:
+  selector:
+    matchLabels:
+      app: mongo-deployment
+  template:
+    metadata:
+      labels:
+        app: mongo-deployment
+    spec:
+      containers:
+        - name: mongo
+          image: mongo:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 27017
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: 'mongodb'
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: 'admin'
+          resources:
+            limits:
+              memory: '1024Mi'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service
+  namespace: default
+  labels:
+    app: mongo-deployment
+spec:
+  selector:
+    app: mongo-deployment
+  ports:
+    - name: mongo-service-port
+      protocol: TCP
+      port: 27017
+      targetPort: 27017
+  type: LoadBalancer
+  loadBalancerIP: ''

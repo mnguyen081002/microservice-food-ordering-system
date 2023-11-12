@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customer-deployment
+  labels:
+    app: customer-deployment
+spec:
+  selector:
+    matchLabels:
+      app: customer-deployment
+  template:
+    metadata:
+      labels:
+        app: customer-deployment
+    spec:
+      containers:
+        - name: customer-service
+          image: fos/customer-service:latest
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: 'jdbc:postgresql://postgres-service:5432/postgres?currentSchema=customer&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified'
+            - name: KAFKA-CONFIG_BOOTSTRAP-SERVERS
+              value: 'kafka-svc:9092'
+            - name: KAFKA-CONFIG_SCHEMA-REGISTRY-URL
+              value: 'http://schema-registry-service:8081'
+          resources:
+            limits:
+              memory: '1024Mi'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: customer-service
+  namespace: default
+  labels:
+    app: customer-service
+spec:
+  selector:
+    app: customer-deployment
+  ports:
+    - name: customer-service-port
+      protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
+  loadBalancerIP: ''
